@@ -10,9 +10,9 @@ spec:
     app: flipkart
   template:
     metadata:
-      name: flipkartapp
+      name: flipkart
       labels:
-        app: flipkartapp
+        app: flipkart
     spec:
       containers:
       - name: nginx
