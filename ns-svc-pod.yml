@@ -33,4 +33,4 @@ kind: Namespace
 metadata:
   name: amazonns
   labels:
-    app:amazonns
+    app: amazonns
