@@ -7,7 +7,7 @@ metadata:
 spec:
   replica: 3
   selector:
-    app: flipkartapp
+    app: flipkart
   template:
     metadata:
       name: flipkartapp
