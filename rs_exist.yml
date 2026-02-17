@@ -7,17 +7,17 @@ metadata:
 spec:
   selector:
     matchExpressions:
-        - {key: app, operator: Exists}
-    replicas: 3
-    template:
-        metadata:
-          name: nginx
-          labels:
-            app:nginx
-        spec:
-          containers:
-          - name: nginx
-            image: nginx:latest
-            ports: 
-            - containerPort: 80
-            
+        - { key: app, operator: Exists}
+  replicas: 3
+  template:
+      metadata:
+        name: nginx
+        labels:
+          app: nginx-exist
+      spec:
+        containers:
+        - name: nginx
+          image: nginx:latest
+          ports: 
+          - containerPort: 80
+
