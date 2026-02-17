@@ -10,11 +10,11 @@ spec:
         - { key: app, operator: NotIn, values: [rsapp, new-app, nginx-in]}
   replicas: 3
   template:
-       metadata:
-         name: nginx
-         labels:
-           app: nginx-notin
-         spec:
+      metadata:
+        name: nginx
+        labels:
+          app: nginx-notin
+        spec:
           containers:
           - name: nginx
             image: nginx:latest
