@@ -12,7 +12,7 @@ spec:
       labels:
         app: my-app-shadow
     spec:
-      ontainers:
+      containers:
       - name: my-app-container
         image: nginx:latest
         ports:
