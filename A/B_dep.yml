@@ -11,10 +11,10 @@ spec:
     metadata:
       labels:
         app: my-app-ab-dep
-  spec:
-    containers:
-    - name: my-app-container-version-a
-      image: nginx:latest
+    spec:
+      containers:
+      - name: my-app-container-version-a
+        image: nginx:latest
 ---
 apiVersion: v1
 kind: Service
