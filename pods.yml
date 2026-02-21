@@ -1,3 +1,15 @@
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: nginx
+#   labels:
+#     app: nginx
+# spec:
+#   containers:
+#     - name: nginx
+#       image: nginx:latest
+#       ports:
+#         - containerPort: 80
 apiVersion: v1
 kind: Pod
 metadata:
@@ -6,7 +18,9 @@ metadata:
     app: nginx
 spec:
   containers:
-    - name: nginx
-      image: nginx:latest
-      ports:
-        - containerPort: 80
+  - name: nginx
+    image: nginx:latest
+    command: ["nginx"]
+    args: ["-g", "daemon off;"]
+    ports:
+    - containerPort: 80
