@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: nginxdeployment
+  labels:
+    app: nginxdeployment
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    RollingUpdate:
+      manUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app:  nginxdeployment
+  template:
+    metadata:
+      labels:
+        app: nginxdeployment
+    spec:
+      containers:
+      - name: nginx 
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu:  300m
+            memory: 300Mi
+          limits: 
+            cpu: 600m
+            memory: 600Mi
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata: 
+  name: nginxdeployment-hpa
+  labels:
+    app: nginxdeployment-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginxdeployment
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 5
