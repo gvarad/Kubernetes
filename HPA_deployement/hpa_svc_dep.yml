@@ -1,0 +1,105 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: nginxdeployment
+#   labels:
+#     app: nginxdeployment
+# spec:
+#   replicas: 1
+#   strategy:
+#     type: RollingUpdate
+#     rollingUpdate:
+#       maxUnavailable: 1
+#       maxSurge: 1
+#   selector:
+#     matchLabels:
+#       app: nginxdeployment
+#   template:
+#     metadata:
+#       labels:
+#         app: nginxdeployment
+#     spec:
+#       containers:
+#         - name: nginx
+#           image: nginx:latest
+#           ports:
+#             - containerPort: 80
+#           resources:
+#             requests:
+#               cpu: 300m
+#               memory: 300Mi
+#             limits:
+#               cpu: 600m
+#               memory: 600Mi
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: clusterip
+#   labels:
+#     app: clusterip
+# spec:
+#   selector:
+#     app: nginx
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#   type: ClusterIP
+# ---
+# apiVersion: autoscaling/v2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: nginxdeployment-hpa
+#   labels:
+#     app: nginxdeployment-hpa
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: nginxdeployment
+#   minReplicas: 2
+#   maxReplicas: 5
+#   metrics:
+#     - type: Resource
+#       resource:
+#         name: cpu
+#         target:
+#           type: Utilization
+#           averageUtilization: 5
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-apache
+spec:
+  selector:
+    matchLabels:
+      run: php-apache
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: php-apache
+    spec:
+      containers:
+      - name: php-apache
+        image: registry.k8s.io/hpa-example
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-apache
+  labels:
+    run: php-apache
+spec:
+  ports:
+  - port: 80
+  selector:
+    run: php-apache
